@@ -1,46 +1,36 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
-
-function Home() {
-  return (
-    <div>
-      <h1>🐳 Docker React App</h1>
-      <p>Welcome to your Dockerized React application!</p>
-      <p>This app is running in a Docker container with hot reload enabled.</p>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h1>About</h1>
-      <p>This is a sample React app containerized with Docker.</p>
-      <p>Features:</p>
-      <ul>
-        <li>React 18</li>
-        <li>React Router</li>
-        <li>Hot reload in development</li>
-        <li>Production-ready builds</li>
-      </ul>
-    </div>
-  );
-}
+// === App.js ===
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import TaskList from "./components/TaskList";
+import TaskEdit from "./components/TaskEdit";
+import TaskForm from "./components/TaskForm";
+import TaskView from "./components/TaskView";
+import "./index.css"; 
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <nav className="navbar">
-          <Link to="/" className="nav-link">Home</Link>
-          <Link to="/about" className="nav-link">About</Link>
-        </nav>
-        
+      <div className="app-container">
+        {/* Sidebar */}
+        <aside className="sidebar">
+          <div>
+            <h2>Task Manager</h2>
+            <nav>
+              <Link to="/tasks">📋 Task List</Link>
+              <Link to="/task/create">➕ Add Task</Link>
+            </nav>
+          </div>
+          <div className="sidebar-footer">
+            <p>© 2025 Task System</p>
+          </div>
+        </aside>
+
+        {/* Main Content */}
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/tasks" element={<TaskList />} />
+            <Route path="/task/create" element={<TaskForm />} />
+            <Route path="/task/edit/:taskId" element={<TaskEdit />} />
+            <Route path="/task/:taskId" element={<TaskView />} />
           </Routes>
         </main>
       </div>
