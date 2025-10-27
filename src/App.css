@@ -1,0 +1,51 @@
+.App {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.navbar {
+  background-color: #282c34;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+}
+
+.nav-link {
+  color: #61dafb;
+  text-decoration: none;
+  margin: 0 1rem;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+.main-content {
+  min-height: 400px;
+}
+
+h1 {
+  color: #282c34;
+  margin-bottom: 1rem;
+}
+
+p {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+ul {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
