@@ -1,108 +1,111 @@
 // === TaskForm.js ===
-
 import { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link, useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const TaskForm = () => {
-  // State variables for task form fields
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("pending"); // Default status
-  const [due_date, setDueDate] = useState(""); //
-  
-  const [message, setMessage] = useState(""); // success/error message
-  const [saving, setSaving] = useState(false); // saving state
+  const [status, setStatus] = useState("pending");
+  const [due_date, setDueDate] = useState("");
+  const [message, setMessage] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  // Handle form submission
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
-    setMessage(""); // Clear old messages
+    setMessage("");
 
-    // Task data to be sent to the API
-    const taskData = { title, description, status, due_date };
-
-    // Set due_date to null if it's empty, as it's nullable
-    if (taskData.due_date === "") {
-      taskData.due_date = null;
-    }
+    const taskData = { title, description, status, due_date: due_date || null };
 
     try {
-      // POST data to your Laravel API endpoint for tasks
       const response = await fetch("http://localhost:8082/api/tasks", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify(taskData), // convert task data to JSON
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(taskData),
       });
 
-      const data = await response.json(); // parse the JSON response
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || "Failed to create task");
 
-      if (!response.ok) {
-        // Handle validation errors from Laravel
-        if (data.errors) {
-          throw new Error(Object.values(data.errors).join(', '));
-        } else {
-          throw new Error(data.message || "Failed to create task");
-        }
-      }
-      
-      // Success! Set message and clear the form.
-      setMessage(`Task "${data.title}" (ID: ${data.id}) created successfully!`);
-      setTitle("");
-      setDescription("");
-      setStatus("pending");
-      setDueDate("");
+      setMessage("Task created successfully!");
       setSaving(false);
-      
+
+      setTimeout(() => navigate("/tasks"), 1000);
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      setMessage(`❌ ${error.message}`);
       setSaving(false);
     }
   };
 
   return (
-    <div>
-      <h2>Add New Task</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Task Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-        <textarea
-          placeholder="Description (optional)"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        {/* Using a select for the status enum */}
-        <select value={status} onChange={(e) => setStatus(e.target.value)}>
-          <option value="pending">Pending</option>
-          <option value="in-progress">In-Progress</option>
-          <option value="completed">Completed</option>
-        </select>
-        <input
-          type="date"
-          placeholder="Due Date (optional)"
-          value={due_date}
-          onChange={(e) => setDueDate(e.target.value)}
-        />
-        <button type="submit" disabled={saving}>
+    <div className="container mt-5">
+      <h2 className="mb-4 text-center">Add New Task</h2>
+      {message && (
+        <div
+          className={`alert ${
+            message.startsWith("✅") ? "alert-success" : "alert-danger"
+          }`}
+        >
+          {message}
+        </div>
+      )}
+      <form onSubmit={handleSubmit} className="card p-4 shadow-sm">
+        <div className="mb-3">
+          <label>Title</label>
+          <input
+            type="text"
+            className="form-control"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label>Description</label>
+          <textarea
+            className="form-control"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label>Status</label>
+          <select
+            className="form-select"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
+            <option value="pending">Pending</option>
+            <option value="in-progress">In-Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+
+        <div className="mb-3">
+          <label>Due Date</label>
+          <input
+            type="date"
+            className="form-control"
+            value={due_date}
+            onChange={(e) => setDueDate(e.target.value)}
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary w-100" disabled={saving}>
           {saving ? "Saving..." : "Save Task"}
         </button>
       </form>
-      
-      {message && (
-        // You can style this paragraph with a class name for success/error
-        <p>
-          {message}
-        </p>
-      )}
-      <Link to="/tasks">Back to Task List</Link>
+
+      <div className="text-center mt-3">
+        <Link to="/tasks" className="btn btn-link">
+          ← Back to Task List
+        </Link>
+      </div>
     </div>
   );
 };
