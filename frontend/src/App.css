@@ -1,0 +1,383 @@
+/* === RESET === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f3f5f9;
+  color: #333;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* === APP LAYOUT === */
+.app-container {
+  display: flex;
+  width: 100%;
+  max-width: 1300px;
+  height: 90vh;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  animation: fadeIn 0.6s ease;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(180deg, #007bff, #00b4d8);
+  color: #fff;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 10px;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
+}
+
+.sidebar-footer {
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+/* === MAIN AREA === */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  background: #f8faff;
+}
+
+.main-content h1 {
+  font-size: 26px;
+  color: #007bff;
+  margin-bottom: 20px;
+  font-weight: 700;
+  border-bottom: 2px solid #007bff;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* === TABLE STYLING === */
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+  font-size: 15px;
+}
+
+.task-table th {
+  background-color: #007bff;
+  color: white;
+  padding: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 13px;
+}
+
+.task-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.task-table tr:hover {
+  background-color: #f1f7ff;
+}
+
+/* === STATUS BADGES === */
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+.status.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status.in-progress {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status.completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* === BUTTONS === */
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+button.edit {
+  background-color: #28a745;
+  color: white;
+  margin-right: 8px;
+}
+
+button.delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+button.add {
+  background-color: #007bff;
+  color: white;
+  margin-bottom: 15px;
+}
+
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* === FORM === */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+label {
+  font-weight: 600;
+  color: #333;
+}
+
+input,
+select,
+textarea {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .app-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .sidebar nav {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+}
+/* 🌟 General App Layout */
+.app-container {
+  font-family: "Poppins", sans-serif;
+  background: #f7f9fc;
+  color: #333;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Header */
+.app-header {
+  text-align: center;
+  background: linear-gradient(135deg, #0066ff, #4ac1ff);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.app-nav {
+  margin-top: 1rem;
+}
+
+.app-nav a {
+  text-decoration: none;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.app-nav a:hover {
+  background: white;
+  color: #0066ff;
+}
+
+/* 🌸 Task List Styles */
+h2 {
+  color: #007bff;
+  text-align: center;
+  margin: 2rem 0 1rem 0;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+/* Task Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  max-width: 900px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+th {
+  background: #007bff;
+  color: white;
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 0.95rem;
+}
+
+/* Alternate row color */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover effect */
+tbody tr:hover {
+  background-color: #f1f8ff;
+  transition: 0.2s;
+}
+
+/* Status badges */
+td:nth-child(2) {
+  font-weight: 600;
+}
+
+td:nth-child(2)::before {
+  content: "• ";
+  font-size: 1.2rem;
+}
+
+td:nth-child(2):contains("pending") {
+  color: #ff9800;
+}
+
+td:nth-child(2):contains("in-progress") {
+  color: #2196f3;
+}
+
+td:nth-child(2):contains("completed") {
+  color: #4caf50;
+}
+
+/* Loading & Empty states */
+.loading,
+.empty {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.2rem;
+  color: #666;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
