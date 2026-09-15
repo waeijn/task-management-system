@@ -4,13 +4,78 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
-    // GET /api/tasks
-    public function index()
+    // GET /api/tasks — with optional filtering
+    public function index(Request $request)
     {
-        return response()->json(Task::all());
+        $query = Task::query();
+
+        // Filter by status
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter by category
+        if ($request->has('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Filter by priority
+        if ($request->has('priority')) {
+            $query->where('priority', $request->priority);
+        }
+
+        // Filter by view type
+        if ($request->has('view')) {
+            $today = Carbon::today()->toDateString();
+
+            if ($request->view === 'due_today') {
+                $query->where('due_date', $today);
+            } elseif ($request->view === 'overdue') {
+                $query->where('due_date', '<', $today)
+                      ->where('status', '!=', 'completed');
+            }
+        }
+
+        return response()->json($query->orderBy('created_at', 'desc')->get());
+    }
+
+    // GET /api/tasks/summary — counts for sidebar
+    public function summary()
+    {
+        $today = Carbon::today()->toDateString();
+
+        $tasks = Task::all();
+
+        // Status counts
+        $statusCounts = $tasks->groupBy('status')->map->count();
+
+        // Category counts
+        $categoryCounts = $tasks->whereNotNull('category')
+                               ->where('category', '!=', '')
+                               ->groupBy('category')
+                               ->map->count();
+
+        // Priority counts
+        $priorityCounts = $tasks->groupBy('priority')->map->count();
+
+        // View counts
+        $dueToday = Task::where('due_date', $today)->count();
+        $overdue = Task::where('due_date', '<', $today)
+                       ->where('status', '!=', 'completed')
+                       ->count();
+
+        return response()->json([
+            'total' => $tasks->count(),
+            'due_today' => $dueToday,
+            'overdue' => $overdue,
+            'status' => $statusCounts,
+            'categories' => $categoryCounts,
+            'priorities' => $priorityCounts,
+        ]);
     }
 
     // POST /api/tasks
@@ -21,6 +86,8 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'status' => 'in:pending,in-progress,completed',
             'due_date' => 'nullable|date',
+            'category' => 'nullable|string|max:100',
+            'priority' => 'in:low,medium,high',
         ]);
 
         $task = Task::create($validated);
@@ -44,6 +111,8 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'status' => 'in:pending,in-progress,completed',
             'due_date' => 'nullable|date',
+            'category' => 'nullable|string|max:100',
+            'priority' => 'in:low,medium,high',
         ]);
 
         $task->update($validated);
