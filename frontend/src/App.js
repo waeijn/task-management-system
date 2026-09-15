@@ -1,5 +1,5 @@
 // === App.js ===
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import TaskList from "./components/TaskList";
 import TaskEdit from "./components/TaskEdit";
 import TaskForm from "./components/TaskForm";
@@ -8,7 +8,7 @@ import "./index.css";
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="app-container">
         {/* Sidebar */}
         <aside className="sidebar">
@@ -27,6 +27,7 @@ function App() {
         {/* Main Content */}
         <main className="main-content">
           <Routes>
+            <Route path="/" element={<Navigate to="/tasks" replace />} />
             <Route path="/tasks" element={<TaskList />} />
             <Route path="/task/create" element={<TaskForm />} />
             <Route path="/task/edit/:taskId" element={<TaskEdit />} />
