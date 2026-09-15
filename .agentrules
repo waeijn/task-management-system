@@ -1,0 +1,35 @@
+# Agent Rules for Task Management System
+
+This file defines the project-specific guidelines, context, and rules that the AI agent should follow when working within this workspace.
+
+## Tech Stack Overview
+- **Frontend**: React (Create React App), React Bootstrap, React Router DOM
+- **Backend**: PHP / Laravel
+- **Infrastructure**: Docker & Docker Compose
+
+## General Guidelines
+- **Docker First**: This project uses Docker. Always provide instructions and run commands via Docker/Docker Compose whenever possible (e.g., `docker-compose exec backend php artisan ...`).
+- **Code Style**: Maintain consistent coding styles. Use modern JavaScript/ES6+ features in the React frontend, and follow standard PHP PSR conventions for the Laravel backend.
+- **Documentation**: Update comments and relevant documentation (like `README.md`) when making significant logic changes. Provide clear commit messages and explain architectural decisions.
+- **Modularity**: Favor modular, reusable components in React and follow the MVC design pattern strictly in Laravel.
+
+## Frontend (React)
+- **Components**: Write functional components and use React Hooks (`useState`, `useEffect`, etc.).
+- **Styling**: Use React Bootstrap components for styling and layout where applicable to maintain consistency.
+- **Routing**: Manage routing centrally using `react-router-dom`.
+- **API Communication**: Create centralized services or hooks for API calls to the Laravel backend.
+
+## Backend (Laravel)
+- **Artisan**: Use Artisan commands for scaffolding, migrations, and running tests.
+- **Routing & Controllers**: Keep routes clean. Move business logic to Controllers or dedicated Service classes, keeping Controllers thin.
+- **Database**: Always use Eloquent ORM and migrations for database operations. Avoid raw SQL queries unless absolutely necessary for performance.
+- **API Responses**: Return consistent JSON responses for API endpoints.
+
+## Testing & Quality
+- Write and maintain tests for critical features.
+- When making backend changes, ensure Laravel's PHPUnit tests pass.
+- When making frontend changes, verify React rendering and logic tests.
+
+## Planning & Execution
+- Before executing complex, multi-file changes, use **Planning Mode** to propose an implementation plan for review.
+- Break down large tasks into smaller, manageable steps in a `task.md` list.
